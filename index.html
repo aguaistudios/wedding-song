@@ -711,6 +711,18 @@
   .tier-cta a { color: inherit; text-decoration: underline; text-underline-offset: 4px; }
   .end a.flash { animation: sendWig .8s ease 2; }
 </style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1581497390660553');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1581497390660553&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -926,6 +938,22 @@
 </div>
 
 <script>
+  // Meta 像素：事件（被擋掉也不影響頁面）
+  var pxDone = {};
+  function px(kind, name, data, once) {
+    var key = kind + name + JSON.stringify(data || {});
+    if (once && pxDone[key]) return; pxDone[key] = 1;
+    try { window.fbq && fbq(kind, name, data || {}); } catch (e) {}
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href*="lin.ee"], a[href*="instagram.com"]');
+    if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (a.href.indexOf('lin.ee') > -1) px('track', 'Lead', { content_name: a.dataset.event }, true);
+    else px('trackCustom', 'FollowIG', { content_name: a.dataset.event }, true);
+    if (!window.fbq || (a.target && a.target !== '_self')) return;
+    e.preventDefault();
+    var href = a.href; setTimeout(function () { location.href = href; }, 300);
+  });
   (function () {
     var end = document.getElementById('end');
     var bar = document.querySelector('.sticky');
@@ -979,7 +1007,7 @@
     });
     snd.addEventListener('click', function () {
       p.muted = !p.muted; cmd(p.muted ? 'mute' : 'unMute');
-      if (!p.muted) { players.forEach(function (o) { if (o !== p && o.want) o.pause(); }); p.userPaused = false; cmd('playVideo'); p.want = true; }
+      if (!p.muted) { px('trackCustom', 'VideoSound', { video: id }, true); players.forEach(function (o) { if (o !== p && o.want) o.pause(); }); p.userPaused = false; cmd('playVideo'); p.want = true; }
       draw();
     });
     ply.addEventListener('click', function () {
@@ -987,6 +1015,7 @@
       else { p.userPaused = false; players.forEach(function (o) { if (o !== p && o.want) o.pause(); }); p.play(); }
     });
     fs.addEventListener('click', function () {
+      px('trackCustom', 'VideoFullscreen', { video: id }, true);
       players.forEach(function (o) { if (o !== p && o.want) o.pause(); });
       p.muted = false; cmd('unMute'); p.userPaused = false; p.play(); draw();
       var req = f.requestFullscreen || f.webkitRequestFullscreen;
@@ -1075,6 +1104,7 @@
       btns.forEach(function (b, i) { if (b.getAttribute('aria-pressed') === 'true') picked.push(i); });
       var n = picked.length;
       if (!n) return;
+      px('trackCustom', 'QuizSubmit', { checked: n });
       out.hidden = false;
       out.className = 'after on lv' + Math.max(n, 1);
       out.innerHTML = render(n, picked) + '<small>👇 往下看，故事已經幫你打開了</small>';
@@ -1186,7 +1216,7 @@
     var t = document.getElementById('tiers'); if (!t) return;
     function chk() {
       if (t.offsetParent === null) return;
-      if (t.getBoundingClientRect().top < window.innerHeight * 0.7) { t.classList.add('show'); window.removeEventListener('scroll', chk); }
+      if (t.getBoundingClientRect().top < window.innerHeight * 0.7) { t.classList.add('show'); px('track', 'ViewContent', { content_name: 'price' }, true); window.removeEventListener('scroll', chk); }
     }
     window.addEventListener('scroll', chk, { passive: true });
   })();
