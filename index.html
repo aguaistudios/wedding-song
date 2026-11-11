@@ -696,6 +696,20 @@
     .hero .ln, .tier { opacity: 1; transform: none; animation: none; transition: none; }
     .vctl .v-sound.muted, .send.wig { animation: none; }
   }
+
+  /* v7 */
+  .vctl { flex-wrap: wrap; }
+  .vctl .v-sound { flex: 1 1 100%; }
+  .vctl .v-play, .vctl .v-fs { flex: 1 1 0; min-width: 0; }
+  .vctl .v-fs { background: var(--tint); color: var(--ink); }
+  .vctl .v-play.hot { background: #c2557a; color: #fff; animation: pulse 1.6s ease infinite; }
+  .yt-ph { aspect-ratio: 16 / 9; background: #000; }
+  .yt.vfs-on { position: fixed; z-index: 60; left: 50%; top: 45%; transform: translate(-50%, -50%); width: 100vw; max-width: calc(80vh * 16 / 9); aspect-ratio: 16 / 9; box-shadow: 0 0 0 100vmax #000; border-radius: 0; }
+  .vfs-x { all: unset; position: fixed; z-index: 61; left: 50%; bottom: 7vh; transform: translateX(-50%); cursor: pointer; padding: 12px 22px; border-radius: 999px; background: #fff; color: #2a2023; font-weight: 600; font-size: 15px; }
+  @media (orientation: landscape) { .yt.vfs-on { top: 50%; width: auto; height: 86vh; } .vfs-x { left: auto; right: 12px; bottom: 12px; transform: none; } }
+  html.noscroll, html.noscroll body { overflow: hidden; }
+  .tier-cta a { color: inherit; text-decoration: underline; text-underline-offset: 4px; }
+  .end a.flash { animation: sendWig .8s ease 2; }
 </style>
 </head>
 <body>
@@ -824,7 +838,7 @@
       <div class="tier t3"><span class="note-ic">♪♪♪</span><b>NT$15～20 萬</b></div>
     </div>
     <p class="tier-note"><span class="c">根據需求的不同，</span><span class="c">我們會推薦最適合你的方案。</span></p>
-    <p class="tier-cta"><span class="c">快來問問看，</span><span class="c">你想給的這份心意，</span><span class="c">大概落在哪裡？</span></p>
+    <p class="tier-cta"><a href="#end"><span class="c">快來問問看，</span><span class="c">你想給的這份心意，</span><span class="c">大概落在哪裡？</span><span class="c">👉</span></a></p>
   </section>
 
   <section id="faq" class="band band-cream" data-nav="常見問題">
@@ -920,68 +934,109 @@
       bar.classList.toggle('is-hidden', entries[0].isIntersecting);
     }, { threshold: 0.15 }).observe(end);
   })();
-  // 影片：靜音自動播放＋明顯的聲音／暫停按鈕
+  // 影片：靜音自動播放＋聲音／暫停／全螢幕按鈕
   var players = [];
   function makePlayer(a, withSound) {
     if (!a || !a.dataset.id) return;
+    var id = a.dataset.id;
     var f = document.createElement('iframe');
-    f.src = 'https://www.youtube-nocookie.com/embed/' + a.dataset.id + '?autoplay=1&playsinline=1&rel=0&enablejsapi=1' + (withSound ? '' : '&mute=1');
+    f.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&mute=' + (withSound ? 0 : 1) + '&playsinline=1&rel=0&enablejsapi=1&origin=' + encodeURIComponent(location.origin);
     f.title = a.getAttribute('aria-label');
-    f.allow = 'autoplay; encrypted-media; picture-in-picture';
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
     f.allowFullscreen = true;
     a.replaceChildren(f);
     a.removeAttribute('data-id');
     a.removeAttribute('href');
     var bar = document.createElement('div'); bar.className = 'vctl';
-    bar.innerHTML = '<button type="button" class="v-sound"></button><button type="button" class="v-play"></button>';
+    bar.innerHTML = '<button type="button" class="v-sound"></button><button type="button" class="v-play"></button><button type="button" class="v-fs">⛶ 全螢幕觀看</button>';
     a.after(bar);
-    var p = { f: f, el: a, muted: !withSound, playing: true, userPaused: false, autoPaused: false };
-    var snd = bar.querySelector('.v-sound'), ply = bar.querySelector('.v-play');
+    var p = { f: f, el: a, muted: !withSound, playing: false, want: true, ready: false, userPaused: false, autoPaused: false };
+    var snd = bar.querySelector('.v-sound'), ply = bar.querySelector('.v-play'), fs = bar.querySelector('.v-fs');
     function cmd(fn) { try { f.contentWindow.postMessage(JSON.stringify({ event: 'command', func: fn, args: [] }), '*'); } catch (e) {} }
     function draw() {
-      snd.textContent = p.muted ? '🔇 目前靜音，點我開聲音' : '🔊 聲音開啟中';
+      snd.textContent = p.muted ? '🔇 點我開聲音' : '🔊 聲音開啟';
       snd.classList.toggle('muted', p.muted);
       ply.textContent = p.playing ? '⏸ 暫停' : '▶ 播放';
+      ply.classList.toggle('hot', !p.playing && !p.userPaused);
     }
-    p.play = function () { cmd('playVideo'); p.playing = true; draw(); };
-    p.pause = function () { cmd('pauseVideo'); p.playing = false; draw(); };
+    p.play = function () { p.want = true; if (p.muted) cmd('mute'); cmd('playVideo'); };
+    p.pause = function () { p.want = false; cmd('pauseVideo'); p.playing = false; draw(); };
+    p.cmd = cmd;
+    // 跟 YouTube 播放器握手，拿到真正的播放狀態
+    var tries = 0, hs = setInterval(function () {
+      if (p.ready || ++tries > 40) return clearInterval(hs);
+      try { f.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: id, channel: 'widget' }), '*'); } catch (e) {}
+    }, 250);
+    window.addEventListener('message', function (e) {
+      if (e.source !== f.contentWindow || typeof e.data !== 'string') return;
+      var d; try { d = JSON.parse(e.data); } catch (x) { return; }
+      if (d.event === 'onReady' || (d.event === 'initialDelivery')) {
+        if (!p.ready) { p.ready = true; if (p.want) { if (p.muted) cmd('mute'); cmd('playVideo'); } }
+      }
+      var st = d.event === 'onStateChange' ? d.info : (d.info && d.info.playerState);
+      if (typeof st === 'number' && st !== -1 && st !== 3) { p.playing = st === 1; draw(); }
+      if (d.info && typeof d.info.muted === 'boolean' && d.info.muted !== p.muted) { p.muted = d.info.muted; draw(); }
+    });
     snd.addEventListener('click', function () {
       p.muted = !p.muted; cmd(p.muted ? 'mute' : 'unMute');
-      if (!p.muted) { players.forEach(function (o) { if (o !== p && o.playing) o.pause(); }); if (!p.playing) { p.userPaused = false; p.play(); } }
+      if (!p.muted) { players.forEach(function (o) { if (o !== p && o.want) o.pause(); }); p.userPaused = false; cmd('playVideo'); p.want = true; }
       draw();
     });
     ply.addEventListener('click', function () {
       if (p.playing) { p.userPaused = true; p.pause(); }
-      else { p.userPaused = false; players.forEach(function (o) { if (o !== p && o.playing) o.pause(); }); p.play(); }
+      else { p.userPaused = false; players.forEach(function (o) { if (o !== p && o.want) o.pause(); }); p.play(); }
     });
-    f.addEventListener('load', function () { try { f.contentWindow.postMessage(JSON.stringify({ event: 'listening' }), '*'); } catch (e) {} });
+    fs.addEventListener('click', function () {
+      players.forEach(function (o) { if (o !== p && o.want) o.pause(); });
+      p.muted = false; cmd('unMute'); p.userPaused = false; p.play(); draw();
+      var req = f.requestFullscreen || f.webkitRequestFullscreen;
+      var done = false;
+      function fb() { if (done) return; done = true; if (!(document.fullscreenElement || document.webkitFullscreenElement)) pseudo(); }
+      if (req) { try { var r = req.call(f); if (r && r.catch) r.catch(fb); } catch (e) { return fb(); } setTimeout(fb, 700); return; }
+      pseudo();
+    });
+    function pseudo() {
+      var ph = document.createElement('div'); ph.className = 'yt-ph'; a.before(ph);
+      var x = document.createElement('button'); x.type = 'button'; x.className = 'vfs-x'; x.textContent = '✕ 關閉全螢幕';
+      a.classList.add('vfs-on'); document.body.appendChild(x); document.documentElement.classList.add('noscroll');
+      x.addEventListener('click', function () { a.classList.remove('vfs-on'); ph.remove(); x.remove(); document.documentElement.classList.remove('noscroll'); });
+    }
     draw(); players.push(p);
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (es) {
-        var vis = es[0].intersectionRatio > 0.3;
-        if (!vis && p.playing) { p.autoPaused = true; p.pause(); }
+        if (document.querySelector('.vfs-on') || document.fullscreenElement) return;
+        var vis = es[0].intersectionRatio > 0.25;
+        if (!vis && p.want) { p.autoPaused = true; p.pause(); }
         else if (vis && p.autoPaused && !p.userPaused) { p.autoPaused = false; p.play(); }
-      }, { threshold: [0, 0.3, 0.6] }).observe(a);
+      }, { threshold: [0, 0.25, 0.6] }).observe(a);
     }
   }
   document.addEventListener('click', function (e) {
     var a = e.target.closest('.yt[data-id]');
     if (!a) return;
     e.preventDefault();
-    players.forEach(function (o) { if (o.playing) o.pause(); });
+    players.forEach(function (o) { if (o.want) o.pause(); });
     makePlayer(a, true);
   });
   (function () {
-    if (!('IntersectionObserver' in window)) return;
     function auto(sel) {
       var a = document.querySelector(sel); if (!a) return;
+      if (!('IntersectionObserver' in window)) return makePlayer(a, false);
       var io = new IntersectionObserver(function (es) {
-        if (es[0].isIntersecting && a.dataset.id) { io.disconnect(); players.forEach(function (o) { if (o.playing) o.pause(); }); makePlayer(a, false); }
-      }, { threshold: 0.5 });
+        if (es[0].isIntersecting && a.dataset.id) { io.disconnect(); players.forEach(function (o) { if (o.want) o.pause(); }); makePlayer(a, false); }
+      }, { threshold: 0.3 });
       io.observe(a);
     }
     auto('#story .yt');
     auto('#stories .duo article:first-child .yt');
+  })();
+  // 價格那行：跳到最後的 LINE
+  (function () {
+    var c = document.querySelector('.tier-cta a'); if (!c) return;
+    c.addEventListener('click', function () {
+      var btn = document.querySelector('.end a[data-event="line_end"]');
+      if (btn) { btn.classList.remove('flash'); void btn.offsetWidth; setTimeout(function () { btn.classList.add('flash'); }, 500); }
+    });
   })();
 
   // 勾選煩惱 → 送出 → 顯示結果並打開後續內容
