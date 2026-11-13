@@ -767,8 +767,7 @@ fbq('track','PageView');
     <p class="after" id="fit-result" aria-live="polite" hidden></p>
   </section>
 
-  <div class="locked-tease" id="tease"><b>🔒</b>先勾選、送出你的煩惱，<br>下面的故事、價格和答案才會打開。</div>
-  <div id="rest" class="rest" hidden>
+  <div id="rest" class="rest">
 
   <section id="stories" class="band band-pink" data-nav="更多作品">
     <h2>再聽兩個故事</h2>
@@ -1071,7 +1070,7 @@ fbq('track','PageView');
   // 勾選煩惱 → 送出 → 顯示結果並打開後續內容
   (function () {
     var list = document.getElementById('fits'), out = document.getElementById('fit-result');
-    var send = document.getElementById('sendWorry'), rest = document.getElementById('rest'), tease = document.getElementById('tease');
+    var send = document.getElementById('sendWorry'), rest = document.getElementById('rest');
     if (!list || !out || !send || !rest) return;
     var types = [
       null,
@@ -1107,14 +1106,9 @@ fbq('track','PageView');
       px('trackCustom', 'QuizSubmit', { checked: n });
       out.hidden = false;
       out.className = 'after on lv' + Math.max(n, 1);
-      out.innerHTML = render(n, picked) + '<small>👇 往下看，故事已經幫你打開了</small>';
+      out.innerHTML = render(n, picked);
       void out.offsetWidth; out.classList.add('pop');
       send.textContent = '已送出 ✓ 可以再改，重新送出'; send.classList.add('sent'); var note = document.querySelector('.send-note'); if (note) note.remove();
-      if (rest.hidden) {
-        rest.hidden = false; if (tease) tease.remove();
-        window.dispatchEvent(new Event('unlock'));
-        setTimeout(function () { out.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 250);
-      }
     });
   })();
   // 怎麼進行：滑到哪一步，哪一步放大
@@ -1139,7 +1133,6 @@ fbq('track','PageView');
       es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
     }, { threshold: 0.15 });
     document.querySelectorAll('section, .lift, .proof').forEach(function (el) { el.classList.add('reveal'); io.observe(el); });
-    window.addEventListener('unlock', function () { document.querySelectorAll('#rest section').forEach(function (el) { io.unobserve(el); io.observe(el); }); });
   })();
   // 側邊段落捷徑＋回到開頭
   (function () {
