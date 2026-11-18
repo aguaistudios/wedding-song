@@ -710,6 +710,39 @@
   html.noscroll, html.noscroll body { overflow: hidden; }
   .tier-cta a { color: inherit; text-decoration: underline; text-underline-offset: 4px; }
   .end a.flash { animation: sendWig .8s ease 2; }
+
+  /* v9 商品頁 */
+  .gal { margin: 0; }
+  .gal img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; background: #111; }
+  .g-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 3px; }
+  .plan-tag { display: inline-block; margin: 12px 0 0 !important; padding: 6px 12px; border-radius: 999px; background: var(--tint); color: var(--ink) !important; font-size: 13px !important; line-height: 1.6 !important; }
+  .pains { list-style: none; margin: 0; padding: 4px 18px; }
+  .pains li { position: relative; padding: 13px 0 13px 24px; font-size: 15px; line-height: 1.7; }
+  .pains li + li { border-top: 1px solid var(--line); }
+  .pains li::before { content: "✓"; position: absolute; left: 0; top: 13px; color: #c2557a; font-weight: 700; }
+  .product .p-head { padding: 20px 20px 6px; }
+  .p-kicker { display: inline-block; padding: 2px 10px; border-radius: 999px; background: var(--pink); color: var(--on-pink); font-size: 12px; font-weight: 600; letter-spacing: .1em; }
+  .product h3 { margin-top: 10px; font-size: 21px; font-weight: 600; }
+  .p-desc { margin: 8px 0 0; color: var(--ink-soft); font-size: 15px; }
+  .p-noai { display: inline-block; margin: 10px 0 0; padding: 4px 12px; border: 1.5px solid #c2557a; border-radius: 8px; color: #c2557a; font-weight: 600; font-size: 14px; }
+  .p-list { list-style: none; margin: 8px 20px 0; padding: 0; }
+  .p-list li { padding: 10px 0 10px 28px; position: relative; font-size: 16px; border-top: 1px solid var(--line); }
+  .p-list li::before { content: "✓"; position: absolute; left: 4px; top: 10px; color: #06a24a; font-weight: 700; }
+  .p-price { display: flex; align-items: baseline; justify-content: center; gap: 4px; margin: 6px 20px 0; padding: 16px 0 14px; border-top: 1px solid var(--line); }
+  .p-price b { font-size: 40px; font-weight: 700; letter-spacing: .02em; line-height: 1.1; }
+  .p-price .cur, .p-price .up { font-size: 16px; color: var(--ink-soft); }
+  .p-addon { display: flex; align-items: center; gap: 10px; margin: 0 14px 16px; padding: 12px 14px; border: 2px dashed var(--line); border-radius: 14px; }
+  .p-addon .tag { flex: none; padding: 2px 8px; border-radius: 6px; background: var(--ink); color: var(--bg); font-size: 12px; font-weight: 600; }
+  .p-addon .a-col { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.5; }
+  .p-addon .a-name { font-size: 14px; color: var(--ink-soft); }
+  .p-addon .a-price { font-size: 18px; font-weight: 700; }
+  .worth { margin: 16px 4px 0; padding: 14px 16px; border-left: 4px solid var(--pink); background: var(--tint); border-radius: 0 14px 14px 0; }
+  .worth p { margin: 0; font-size: 15px; line-height: 1.9; }
+  .worth b { font-weight: 700; color: #c2557a; }
+  #product .tier-cta { margin-top: 14px; }
+  .quick { margin: 14px 0 0; text-align: center; }
+  .quick-price { display: inline-block; padding: 6px 4px; color: #c2557a; font-weight: 700; font-size: 17px; text-decoration: underline; text-underline-offset: 5px; }
+  .quick .quick-line { margin-top: 8px; background: #06C755; color: #fff; }
 </style>
 <!-- Meta Pixel Code -->
 <script>
@@ -737,15 +770,26 @@ fbq('track','PageView');
 
 <div class="wrap">
   <div class="card lift" id="story" data-nav="愛情鐵人">
-    <a class="yt" href="https://www.youtube.com/watch?v=0RrnPqFl9QM" data-id="0RrnPqFl9QM" aria-label="播放《愛情鐵人》">
-        <img src="https://i.ytimg.com/vi/0RrnPqFl9QM/hqdefault.jpg" alt="《愛情鐵人》婚禮實況" width="480" height="270" loading="lazy">
-        <span class="play" aria-hidden="true">▶</span>
-      </a>
+    <figure class="gal">
+      <img class="g-main" src="ironman-2.jpg" alt="新郎聽著新娘唱歌，擦著眼淚" width="800" height="450">
+      <div class="g-grid">
+        <img src="ironman-1.jpg" alt="新娘穿著禮服，邊唱邊走進會場" width="800" height="450" loading="lazy">
+        <img src="ironman-3.jpg" alt="新娘看著新郎唱「你是我的愛情鐵人」" width="800" height="450" loading="lazy">
+        <img src="ironman-4.jpg" alt="全場賓客看著台上唱歌的新娘" width="800" height="450" loading="lazy">
+        <img src="ironman-5.jpg" alt="兩人一起跑馬拉松" width="400" height="225" loading="lazy">
+      </div>
+    </figure>
     <div class="card-body story">
       <h3><span class="c">《愛情鐵人》她跑向終點，</span><span class="c">他一直都在</span></h3>
       <p><span class="c">她為了他第一次穿上跑鞋，</span><span class="c">婚禮上把這段路唱給他聽。</span></p>
       <p><span class="c">再長的賽道都撐得住的鐵人，</span><span class="c">當場哭到擦不完眼淚。</span></p>
+      <p class="plan-tag"><span class="c">這組是：</span><span class="c">原創歌曲＋親自錄音＋拍攝MV 方案</span></p>
     </div>
+  </div>
+
+  <div class="quick">
+    <a class="quick-price" href="#product"><span class="c">方案 5 萬起，</span><span class="c">看價格 ↓</span></a>
+    <a class="line-btn quick-line" href="https://lin.ee/vzjF0SA" data-event="line_top"><span class="c">加入官方 LINE，</span><span class="c">自己慢慢看方案</span></a>
   </div>
 
   <div class="proof">
@@ -754,20 +798,48 @@ fbq('track','PageView');
     <div><b>Google 5.0</b>客戶給的<br>五星評價</div>
   </div>
 
-  <section id="fit" class="band band-tint" data-nav="適合你嗎">
+  <section id="fit" class="band band-tint" data-nav="你的煩惱">
     <h2>你是不是也正在煩惱這些？</h2>
-    <p class="hint"><b>👇 下方請勾選</b>（可複選）</p>
-    <div class="card"><ul class="fits" id="fits">
-      <li><button type="button" aria-pressed="false"><i class="box" aria-hidden="true"></i><span class="txt"><span class="c">想給他一個一輩子記得的驚喜，</span><span class="c">卻不知道從哪裡開始</span></span></button></li>
-      <li><button type="button" aria-pressed="false"><i class="box" aria-hidden="true"></i><span class="txt"><span class="c">心裡有好多話想說，</span><span class="c">但自己不會寫歌，</span><span class="c">也怕唱不好</span></span></button></li>
-      <li><button type="button" aria-pressed="false"><i class="box" aria-hidden="true"></i><span class="txt"><span class="c">不想婚禮又放成長影片，</span><span class="c">看著親友低頭滑手機</span></span></button></li>
-      <li><button type="button" aria-pressed="false"><i class="box" aria-hidden="true"></i><span class="txt"><span class="c">不想花了大錢，</span><span class="c">隔天就只剩幾張照片</span></span></button></li>
+    <div class="card"><ul class="pains">
+      <li><span class="c">想給他一個一輩子記得的驚喜，</span><span class="c">卻不知道從哪裡開始</span></li>
+      <li><span class="c">心裡有好多話想說，</span><span class="c">但自己不會寫歌，</span><span class="c">也怕唱不好</span></li>
+      <li><span class="c">不想婚禮又放成長影片，</span><span class="c">看著親友低頭滑手機</span></li>
+      <li><span class="c">不想花了大錢，</span><span class="c">隔天就只剩幾張照片</span></li>
     </ul></div>
-    <button class="send" id="sendWorry" type="button">送出我的煩惱 →</button>
-    <p class="after" id="fit-result" aria-live="polite" hidden></p>
   </section>
 
   <div id="rest" class="rest">
+
+  <section id="product" data-nav="商品與價格">
+    <h2>你會得到什麼</h2>
+    <div class="card product">
+      <div class="p-head">
+        <span class="p-kicker">主商品</span>
+        <h3>一首專屬於你們的歌</h3>
+        <p class="p-desc"><span class="c">由音樂製作人聆聽你的故事之後，</span><span class="c">親自幫你創作。</span></p>
+        <p class="p-noai">拒絕 AI 創作</p>
+      </div>
+      <ul class="p-list">
+        <li><span>專屬原創歌曲</span></li>
+        <li><span>親自錄音的音檔</span></li>
+        <li><span>製作過程的陪伴</span></li>
+        <li><span>清楚簡單的流程</span></li>
+        <li><span>專業舒適的引導</span></li>
+        <li><span>難以忘懷的記憶</span></li>
+      </ul>
+      <div class="p-price" id="tiers"><span class="cur">NT$</span><b>5萬</b><span class="up">起</span></div>
+      <div class="p-addon">
+        <span class="tag">選購</span>
+        <span class="a-col"><span class="a-name">親自拍攝的 MV</span><span class="a-price">MV 版 NT$7萬起</span></span>
+      </div>
+    </div>
+    <div class="worth">
+      <p><span class="c">金額看起來不低，</span><span class="c">但如果除以一輩子，</span></p>
+      <p><b><span class="c">一首歌聽 50 年，</span><span class="c">一天不到 3 塊錢。</span></b></p>
+      <p><span class="c">花會謝、場地會拆，</span><span class="c">這首歌會一直在。</span></p>
+    </div>
+    <p class="tier-cta"><a href="#end"><span class="c">快來問問看，</span><span class="c">你想給的這份心意，</span><span class="c">大概落在哪裡？</span><span class="c">👉</span></a></p>
+  </section>
 
   <section id="stories" class="band band-pink" data-nav="更多作品">
     <h2>再聽兩個故事</h2>
@@ -841,16 +913,6 @@ fbq('track','PageView');
     </div>
   </section>
 
-  <section id="price" data-nav="價格">
-    <h2>大概多少錢</h2>
-    <div class="tiers" id="tiers">
-      <div class="tier t1"><span class="note-ic">♪</span><b>NT$2～4 萬</b></div>
-      <div class="tier t2"><span class="note-ic">♪♪</span><b>NT$5～8 萬</b></div>
-      <div class="tier t3"><span class="note-ic">♪♪♪</span><b>NT$15～20 萬</b></div>
-    </div>
-    <p class="tier-note"><span class="c">根據需求的不同，</span><span class="c">我們會推薦最適合你的方案。</span></p>
-    <p class="tier-cta"><a href="#end"><span class="c">快來問問看，</span><span class="c">你想給的這份心意，</span><span class="c">大概落在哪裡？</span><span class="c">👉</span></a></p>
-  </section>
 
   <section id="faq" class="band band-cream" data-nav="常見問題">
     <h2>你可能想問</h2>
@@ -945,9 +1007,9 @@ fbq('track','PageView');
     try { window.fbq && fbq(kind, name, data || {}); } catch (e) {}
   }
   document.addEventListener('click', function (e) {
-    var a = e.target.closest('a[href*="lin.ee"], a[href*="instagram.com"]');
+    var a = e.target.closest('a[href*="lin.ee"], a[href*="line.me"], a[href*="instagram.com"]');
     if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    if (a.href.indexOf('lin.ee') > -1) px('track', 'Lead', { content_name: a.dataset.event }, true);
+    if (a.href.indexOf('instagram.com') < 0) { window.__pxLead = 1; px('track', 'Lead', { content_name: a.dataset.event }, true); }
     else px('trackCustom', 'FollowIG', { content_name: a.dataset.event }, true);
     if (!window.fbq || (a.target && a.target !== '_self')) return;
     e.preventDefault();
@@ -1209,9 +1271,26 @@ fbq('track','PageView');
     var t = document.getElementById('tiers'); if (!t) return;
     function chk() {
       if (t.offsetParent === null) return;
-      if (t.getBoundingClientRect().top < window.innerHeight * 0.7) { t.classList.add('show'); px('track', 'ViewContent', { content_name: 'price' }, true); window.removeEventListener('scroll', chk); }
+      if (t.getBoundingClientRect().top < window.innerHeight * 0.7) { t.classList.add('show'); if (!window.__pxPrice) window.__pxPrice = Date.now(); px('track', 'ViewContent', { content_name: 'price' }, true); window.removeEventListener('scroll', chk); }
     }
     window.addEventListener('scroll', chk, { passive: true });
+  })();
+  // 像素：滑到最後、看到價格後沒按 LINE 就離開
+  (function () {
+    var endCard = document.querySelector('.end-main');
+    if (endCard && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting) { window.__pxEnd = 1; px('trackCustom', 'ReachEnd', {}, true); io.disconnect(); }
+      }, { threshold: 0.4 });
+      io.observe(endCard);
+    }
+    function leave() {
+      if (!window.__pxPrice || window.__pxLead || window.__pxLeft) return;
+      window.__pxLeft = 1;
+      px('trackCustom', 'PriceExit', { seconds_after_price: Math.round((Date.now() - window.__pxPrice) / 1000), reached_end: window.__pxEnd ? 1 : 0 }, true);
+    }
+    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') leave(); });
+    window.addEventListener('pagehide', leave);
   })();
 </script>
 
