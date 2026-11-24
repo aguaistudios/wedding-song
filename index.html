@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://aguaistudios.github.io/wedding-song/">
 <meta property="og:title" content="把你說不出口的話，翻成旋律｜見怪不怪音樂 阿怪總監">
-<meta property="og:description" content="破百萬觀看《愛情鐵人》的幕後團隊。不會寫、不會唱也可以，流程、價格、作品一次看。">
+<meta property="og:description" content="破百萬觀看《愛情鐵人》的幕後團隊。不會寫、不會唱也可以，流程、作品一次看。">
 <meta property="og:image" content="https://i.ytimg.com/vi/0RrnPqFl9QM/hqdefault.jpg">
 <meta property="og:locale" content="zh_TW">
 <meta name="twitter:card" content="summary_large_image">
@@ -725,6 +725,7 @@
   .product h3 { margin-top: 10px; font-size: 21px; font-weight: 600; }
   .p-desc { margin: 8px 0 0; color: var(--ink-soft); font-size: 15px; }
   .p-noai { display: inline-block; margin: 10px 0 0; padding: 4px 12px; border: 1.5px solid #c2557a; border-radius: 8px; color: #c2557a; font-weight: 600; font-size: 14px; }
+  .p-noai { margin-right: 6px !important; }
   .p-list { list-style: none; margin: 8px 20px 0; padding: 0; }
   .p-list li { padding: 10px 0 10px 28px; position: relative; font-size: 16px; border-top: 1px solid var(--line); }
   .p-list li::before { content: "✓"; position: absolute; left: 4px; top: 10px; color: #06a24a; font-weight: 700; }
@@ -742,7 +743,17 @@
   #product .tier-cta { margin-top: 14px; }
   .quick { margin: 14px 0 0; text-align: center; }
   .quick-price { display: inline-block; padding: 6px 4px; color: #c2557a; font-weight: 700; font-size: 17px; text-decoration: underline; text-underline-offset: 5px; }
+  .safe { margin: 12px 0 0; padding: 12px 14px; border: 1.5px solid #c2557a; border-radius: 12px; }
+  .safe .safe-t { margin: 0 0 4px; color: #c2557a; font-weight: 700; font-size: 15px; }
+  .safe ul { list-style: none; margin: 0; padding: 0; }
+  .safe li { position: relative; padding: 3px 0 3px 20px; font-size: 14px; line-height: 1.6; }
+  .safe li::before { content: "✓"; position: absolute; left: 0; color: #c2557a; font-weight: 700; }
   .quick .quick-line { margin-top: 8px; background: #06C755; color: #fff; }
+  .p-quote { margin: 0 14px 18px; padding: 16px 14px; border-radius: 14px; background: var(--tint); text-align: center; }
+  .p-quote .q-title { margin: 0; font-size: 20px; font-weight: 700; }
+  .p-quote .q-sub { margin: 4px 0 0; font-size: 14px; color: var(--ink-soft); }
+  .p-quote .q-line { margin-top: 12px; background: #06C755; color: #fff; }
+  .product .p-list { margin-bottom: 14px; }
 </style>
 <!-- Meta Pixel Code -->
 <script>
@@ -788,7 +799,7 @@ fbq('track','PageView');
   </div>
 
   <div class="quick">
-    <a class="quick-price" href="#product"><span class="c">方案 5 萬起，</span><span class="c">看價格 ↓</span></a>
+    <a class="quick-price" href="#product"><span class="c">想知道你的歌要多少？</span><span class="c">LINE 免費估價 ↓</span></a>
     <a class="line-btn quick-line" href="https://lin.ee/vzjF0SA" data-event="line_top"><span class="c">加入官方 LINE，</span><span class="c">自己慢慢看方案</span></a>
   </div>
 
@@ -805,19 +816,28 @@ fbq('track','PageView');
       <li><span class="c">心裡有好多話想說，</span><span class="c">但自己不會寫歌，</span><span class="c">也怕唱不好</span></li>
       <li><span class="c">不想婚禮又放成長影片，</span><span class="c">看著親友低頭滑手機</span></li>
       <li><span class="c">不想花了大錢，</span><span class="c">隔天就只剩幾張照片</span></li>
+      <li><span class="c">看到很多 AI 做歌的服務，</span><span class="c">怕名字被唸錯、被亂扣款，</span><span class="c">出了問題還找不到人</span></li>
     </ul></div>
   </section>
 
   <div id="rest" class="rest">
 
-  <section id="product" data-nav="商品與價格">
+  <section id="product" data-nav="商品與估價">
     <h2>你會得到什麼</h2>
     <div class="card product">
       <div class="p-head">
         <span class="p-kicker">主商品</span>
         <h3>一首專屬於你們的歌</h3>
         <p class="p-desc"><span class="c">由音樂製作人聆聽你的故事之後，</span><span class="c">親自幫你創作。</span></p>
-        <p class="p-noai">拒絕 AI 創作</p>
+        <div class="safe">
+          <p class="safe-t"><span class="c">真人製作，</span><span class="c">找得到人</span></p>
+          <ul>
+            <li><span class="c">真人一對一訪談，</span><span class="c">不是 AI 自動生成</span></li>
+            <li><span class="c">全程有專人在 LINE 回覆，</span><span class="c">不會找不到人</span></li>
+            <li><span class="c">先簽約、再付款，</span><span class="c">不會被莫名扣款</span></li>
+            <li><span class="c">名字、小名都由真人唱，</span><span class="c">不怕被唸錯</span></li>
+          </ul>
+        </div>
       </div>
       <ul class="p-list">
         <li><span>專屬原創歌曲</span></li>
@@ -827,15 +847,17 @@ fbq('track','PageView');
         <li><span>專業舒適的引導</span></li>
         <li><span>難以忘懷的記憶</span></li>
       </ul>
-      <div class="p-price" id="tiers"><span class="cur">NT$</span><b>5萬</b><span class="up">起</span></div>
       <div class="p-addon">
         <span class="tag">選購</span>
-        <span class="a-col"><span class="a-name">親自拍攝的 MV</span><span class="a-price">MV 版 NT$7萬起</span></span>
+        <span class="a-col"><span class="a-price">親自拍攝的 MV</span></span>
+      </div>
+      <div class="p-quote" id="tiers">
+        <p class="q-title">每首歌依故事量身報價</p>
+        <p class="q-sub"><span class="c">告訴我們你的故事，</span><span class="c">免費幫你估價</span></p>
+        <a class="line-btn q-line" href="https://lin.ee/vzjF0SA" data-event="line_quote">LINE 免費估價</a>
       </div>
     </div>
     <div class="worth">
-      <p><span class="c">金額看起來不低，</span><span class="c">但如果除以一輩子，</span></p>
-      <p><b><span class="c">一首歌聽 50 年，</span><span class="c">一天不到 3 塊錢。</span></b></p>
       <p><span class="c">花會謝、場地會拆，</span><span class="c">這首歌會一直在。</span></p>
     </div>
     <p class="tier-cta"><a href="#end"><span class="c">快來問問看，</span><span class="c">你想給的這份心意，</span><span class="c">大概落在哪裡？</span><span class="c">👉</span></a></p>
